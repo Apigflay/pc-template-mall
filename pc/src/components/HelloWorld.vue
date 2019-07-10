@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <svg-icon icon-class="paihangbang_2"></svg-icon>
+    <!-- <svg-icon icon-class="paihangbang_2"></svg-icon> -->
   </div>
 </template>
 

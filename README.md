@@ -224,3 +224,23 @@ input{
 12 修改第三方ui框架使用 穿透函数不生效问题 在全局css修改
 
 13 vue打包.map文件 去掉  index.js cssSourceMap改为false
+
+14全局注册组件
+// 以下是注册组件的方法
+import NavBar from './components/component/Nav.vue';
+Vue.component("NavBar",NavBar); // 全局注册组件
+
+15 iview-admin npm i 报错问题
+	在使用2.0+版本iview-admin的时候，npm  i 报错
+	code Z_BUF_ERROR npm ERR! errno -5 npm ERR! zlib: unexpected end of file
+	可能由五种问题出现
+	2  npm i babel-loader babel-core babel-preset-env babel-plugin-transform-runtime -D
+	3 npm config get proxy
+	返回null
+	4 执行npm config get https-proxy
+	也返回null
+	如果3和4你的机器返回的都不是null的话  需要执行
+	npm config set proxy null
+	npm config set https-proxy null
+	5 执行npm config set registry http://registry.cnpmjs.org/
+	6 npm i babel-loader babel-core babel-preset-env babel-plugin-transform-runtime -D
