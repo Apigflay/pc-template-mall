@@ -244,3 +244,20 @@ Vue.component("NavBar",NavBar); // 全局注册组件
 	npm config set https-proxy null
 	5 执行npm config set registry http://registry.cnpmjs.org/
 	6 npm i babel-loader babel-core babel-preset-env babel-plugin-transform-runtime -D
+
+16  iview table等组件不能自适应的问题
+在父元素加 :style="widthMain"
+data        widthMain:{width:''},//table组件自适应
+ created() {
+    window.addEventListener('resize', this.getWidth);
+    this.getWidth()
+  },
+  destroyed () {
+    window.removeEventListener('resize', this.getWidth)
+  },
+
+   method //table组件处理函数
+      getWidth:function(){
+              var wid =document.body.clientWidth;        //网页可见区域宽(body)
+                this.widthMain.width=wid-200+'px';
+      },
