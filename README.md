@@ -261,3 +261,95 @@ data        widthMain:{width:''},//table组件自适应
               var wid =document.body.clientWidth;        //网页可见区域宽(body)
                 this.widthMain.width=wid-200+'px';
       },
+
+17  vue element 纯导出功能
+	npm install --save xlsx file-saver
+	import FileSaver from 'file-saver';
+	import XLSX from 'xlsx';
+	
+	导出函数---wb为需要导出的table  两种方式获取，vue ref  或原生 获取
+exportExcel:function() {
+//  let wb =XLSX.utils.table_to_book(this.$refs.exportExcel);
+ let wb = XLSX.utils.table_to_book(document.querySelector('#out-table'));
+ let wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' });
+ try {
+	 FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), 'exportExcel.xlsx')
+ } catch (e) { if (typeof console !== 'undefined') console.log(e, wbout) }
+ return wbout
+},
+
+18 vue iview  导出 https://www.cnblogs.com/aidixie/p/9606855.html
+   https://pan.baidu.com/s/1PvP-NxmONNh71SRDvlL_9A 密码：3h82
+   在项目下还有有以下操作：
+
+　　　　npm install -S file-saver //用来生成文件的web应用程序
+
+　　　　npm install -S xlsx //电子表格格式的解析器
+
+　　　　npm install -D script-loader //将js挂在在全局下
+	outPortxlsx() {
+        this.downloadLoading = true;
+        require.ensure([], () => {
+            const {export_json_to_excel} = require('../../assets/js/Export2Excel') //这个地址和页面的位置相关，这个地址是Export2Excel.js相对于页面的相对位置
+            const tHeader = ["支付类型","商品ID","金额","币值","赠送币","说明",'操作']; //这个是表头名称 可以是iveiw表格中表头属性的title的数组
+            const filterVal = ['pay','id','money','volue','gift','address']; //与表格数据配合 可以是iview表格中的key的数组
+            const list = this.data; //表格数据，iview中表单数据也是这种格式！
+            const data = this.formatJson(filterVal, list)
+            export_json_to_excel(tHeader, data, '列表excel') //列表excel  这个是导出表单的名称
+            this.downloadLoading = false
+        })
+    },
+    formatJson(filterVal, jsonData) {
+        return jsonData.map(v => filterVal.map(j => v[j]))
+    }
+	
+19 工具函数的写法
+export function square(n) {
+	return n * n;
+}
+import { square } from './util.js'
+console.log(square(2)); // 4
+
+在main.js里进行全局注册 Vue.prototype.ajax = function (){}
+在所有组件里可调用 this.ajax 以及vue.use()
+
+20 Vue.prototype 和vue.use()的疑问
+不管你采用哪种方式，最终实现的调用方式都是 vm.api()
+也就是说，两种方法，实现的原理都是在Vue.prototype上添加了一个方法。所以结论是“没有区别”。
+再来说说Vue.use()到底干了什么。我们知道，Vue.use()可以让我们安装一个自定义的Vue插件。为此，我们需要声明一个install函数
+// 创建一个简单的插件 say.js
+var install = function(Vue) {
+  if (install.installed) return // 如果已经注册过了，就跳过
+  install.installed = true
+
+  Object.defineProperties(Vue.prototype, {
+    $say: {
+      value: function() {console.log('I am a plugin')}
+    }
+  })
+}
+module.exports = install
+然后我们要注册这个插件
+import say from './say.js'
+import Vue from 'vue'
+
+Vue.use(say)
+这样，在每个Vue的实例里我们都能调用say方法了。
+
+我们来看Vue.use方法内部是怎么实现的
+Vue.use = function (plugin) {
+  if (plugin.installed) {
+    return;
+  }
+  // additional parameters
+  var args = toArray(arguments, 1);
+  args.unshift(this);
+  if (typeof plugin.install === 'function') {
+    plugin.install.apply(plugin, args);
+  } else {
+    plugin.apply(null, args);
+  }
+  plugin.installed = true;
+  return this;
+};
+其实也就是调用了这个install方法而已。
