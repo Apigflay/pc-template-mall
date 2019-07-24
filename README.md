@@ -353,3 +353,10 @@ Vue.use = function (plugin) {
   return this;
 };
 其实也就是调用了这个install方法而已。
+
+21 echarts https://echarts.baidu.com/tutorial.html#%E5%9C%A8%20webpack%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20ECharts
+
+22 markdown 编辑器
+ https://www.jianshu.com/p/04376d0c9ff1
+
+23 富文本 编辑器 https://www.cnblogs.com/wisewrong/p/8985471.html
