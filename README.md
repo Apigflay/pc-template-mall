@@ -360,3 +360,14 @@ Vue.use = function (plugin) {
  https://www.jianshu.com/p/04376d0c9ff1
 
 23 富文本 编辑器 https://www.cnblogs.com/wisewrong/p/8985471.html
+
+24 vuex npm install vuex --save
+
+25 npm install es6-promise --save
+
+然后，将下列代码添加到你使用 Vuex 之前的一个地方：
+import 'es6-promise/auto'
+
+
+
+
